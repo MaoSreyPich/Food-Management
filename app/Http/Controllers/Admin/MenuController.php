@@ -37,7 +37,7 @@ class MenuController extends Controller
     {
         $menu = Menu::findOrFail($id);
         $categories = Category::all();
-        return view('admin.menu.edit', compact('menu','categories'));
+        return view('admin.menus.edit', compact('menu','categories'));
     }
 
     public function update(Request $request, $id)

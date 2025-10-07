@@ -3,7 +3,7 @@
 @section('content')
 <div class="container py-4">
   <h3 class="fw-bold mb-4">Add New Category</h3>
-  <form action="" method="POST">
+  <form action="{{ route('admin.categories.store') }}" method="POST">
     @csrf
     <div class="mb-3">
       <label class="form-label">Category Name</label>

@@ -7,7 +7,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
-use function Laravel\Prompts\alert;
 
 class UserController extends Controller
 {
@@ -36,19 +35,19 @@ class UserController extends Controller
         $password=$request->password;
         if(Auth::attempt(['email'=>$email,'password'=>$password])){
             if(Auth::user()->role==0){
+            if(Auth::user()->role == User::ROLE_USER){
                 return redirect('/user');
             }else{
                 return redirect('/admin');
              }
-            }else{
                 return redirect('/');
             }
     }
     public function admin(){
         if(Auth::user()->role==1){
+        if(Auth::user()->role == User::ROLE_ADMIN){
         return view('admin.admin');
     }else{
         return redirect('/user');
     }
-  }
 }

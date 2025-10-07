@@ -29,9 +29,9 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         return view('admin.manage-menu');
     })->name('manage-menu');
     // Menu CRUD
-    Route::resource('menu', App\Http\Controllers\Admin\MenuController::class);   
+    Route::resource('menu', MenuController::class);   
     // Category CRUD
-    Route::resource('categories', App\Http\Controllers\Admin\CategoryController::class);
+    Route::resource('categories', CategoryController::class);
 });
 
 
