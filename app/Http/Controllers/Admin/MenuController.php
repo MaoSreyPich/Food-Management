@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Menu;
 use App\Models\Category;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class MenuController extends Controller
 {
@@ -21,17 +23,40 @@ class MenuController extends Controller
         return view('admin.menus.create', compact('categories'));
     }
 
+
+
     public function store(Request $request)
     {
         $request->validate([
-            'name'=>'required|string|max:255',
-            'category_id'=>'required|exists:categories,id',
-            'price'=>'required|numeric',
-            'stock'=>'required|integer|min:0'
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|exists:categories,id',
+            'price' => 'required|numeric',
+            'stock' => 'required|integer|min:0',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-        Menu::create($request->all());
-        return redirect()->route('admin.menu.index')->with('success','Menu added successfully!');
+    
+        $data = $request->only(['name','category_id','price','stock']);
+    
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+            $imageName = Str::slug($request->name) . '_' . time() . '.' . $file->getClientOriginalExtension();
+    
+            // Make sure the directory exists
+            $uploadPath = public_path('uploads/menus');
+            if (!file_exists($uploadPath)) {
+                mkdir($uploadPath, 0755, true);
+            }
+    
+            $file->move($uploadPath, $imageName);
+            $data['image'] = 'uploads/menus/' . $imageName;
+        }
+    
+        Menu::create($data);
+    
+        return redirect()->route('admin.menu.index')->with('success', 'Menu added successfully!');
     }
+    
 
     public function edit($id)
     {
@@ -43,19 +68,44 @@ class MenuController extends Controller
     public function update(Request $request, $id)
     {
         $menu = Menu::findOrFail($id);
+
         $request->validate([
             'name'=>'required|string|max:255',
             'category_id'=>'required|exists:categories,id',
             'price'=>'required|numeric',
-            'stock'=>'required|integer|min:0'
+            'stock'=>'required|integer|min:0',
+            'image'=>'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // validate image
         ]);
-        $menu->update($request->all());
+
+        $data = $request->all();
+
+        // handle image update
+        if ($request->hasFile('image')) {
+            // delete old image if exists
+            if ($menu->image && file_exists(public_path($menu->image))) {
+                unlink(public_path($menu->image));
+            }
+
+            $imageName = Str::slug($request->name) . '_' . time() . '.' . $request->image->extension();
+            $request->image->move(public_path('uploads/menus'), $imageName);
+            $data['image'] = 'uploads/menus/' . $imageName;
+        }
+
+        $menu->update($data);
+
         return redirect()->route('admin.menu.index')->with('success','Menu updated!');
     }
 
     public function destroy($id)
     {
-        Menu::findOrFail($id)->delete();
+        $menu = Menu::findOrFail($id);
+
+        // delete image if exists
+        if ($menu->image && file_exists(public_path($menu->image))) {
+            unlink(public_path($menu->image));
+        }
+
+        $menu->delete();
         return redirect()->route('admin.menu.index')->with('success','Menu deleted!');
     }
 }

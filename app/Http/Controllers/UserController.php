@@ -44,22 +44,30 @@ class UserController extends Controller
             'email' => 'required|email',
             'password' => 'required'
         ]);
-
+    
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             $user = Auth::user();
-
-            // If you have constants in User model, you can use them. Otherwise numeric check:
-            // admin role = 1, user role = 0 (adjust to your app)
+    
+            // 🛑 Blocked user check
+            if (isset($user->status) && $user->status === 'blocked') {
+                Auth::logout();
+                return back()->withErrors([
+                    'email' => 'Your account has been blocked by the admin.'
+                ])->withInput();
+            }
+    
+            // ✅ Redirect based on role
             if (isset($user->role) && (int)$user->role === 1) {
                 return redirect('/admin');
             }
-
+    
             return redirect('/user');
         }
-
+    
         return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
     }
+
 
     public function admin()
     {

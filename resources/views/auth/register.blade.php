@@ -119,7 +119,7 @@
     </form>
 
     <p class="text-center mt-4">
-      Already have an account? <a href="/">Login</a>
+      Already have an account? <a href="/login">Login</a>
     </p>
   </div>
 
