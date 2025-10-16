@@ -4,60 +4,61 @@ namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\Menu;
 
 class CartController extends Controller
 {
-    /**
-     * Display the user's cart.
-     */
     public function index()
     {
         $cart = session('cart', []);
         return view('customer.cart', compact('cart'));
     }
 
-    /**
-     * Update quantity of a specific cart item.
-     */
+    public function add($id)
+    {
+        $menu = Menu::findOrFail($id);
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$id])) {
+            $cart[$id]['quantity']++;
+        } else {
+            $cart[$id] = [
+                "name" => $menu->name,
+                "quantity" => 1,
+                "price" => $menu->price,
+                "image" => $menu->image
+            ];
+        }
+
+        session()->put('cart', $cart);
+        return redirect()->route('customer.cart.index')->with('success', 'Item added to cart!');
+    }
+
     public function update(Request $request)
     {
-        $id = $request->id;
-        $quantity = max(1, (int) $request->quantity); // prevent zero or negative
-
-        $cart = session()->get('cart', []);
-
-        if (isset($cart[$id])) {
-            $cart[$id]['quantity'] = $quantity;
+        if ($request->id && $request->quantity) {
+            $cart = session()->get('cart');
+            $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
-            return redirect()->back()->with('success', 'Cart updated successfully!');
+            return redirect()->route('customer.cart.index')->with('success', 'Cart updated successfully');
         }
-
-        return redirect()->back()->with('error', 'Item not found in cart.');
     }
 
-    /**
-     * Remove item from cart.
-     */
     public function remove(Request $request)
     {
-        $id = $request->id;
-        $cart = session()->get('cart', []);
-
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            session()->put('cart', $cart);
-            return redirect()->back()->with('success', 'Item removed successfully!');
+        if ($request->id) {
+            $cart = session()->get('cart');
+            if (isset($cart[$request->id])) {
+                unset($cart[$request->id]);
+                session()->put('cart', $cart);
+            }
+            return redirect()->route('customer.cart.index')->with('success', 'Item removed successfully');
         }
-
-        return redirect()->back()->with('error', 'Item not found in cart.');
     }
 
-    /**
-     * Clear entire cart.
-     */
     public function clear()
     {
         session()->forget('cart');
-        return redirect()->back()->with('success', 'Cart cleared successfully!');
+        return redirect()->route('customer.cart.index')->with('success', 'Cart cleared successfully');
     }
 }

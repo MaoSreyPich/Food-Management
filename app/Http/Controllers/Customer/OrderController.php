@@ -13,21 +13,21 @@ class OrderController extends Controller
      */
     public function index(Request $request)
     {
-        // Get the logged-in user email (if using auth)
-        // or fallback to customer email stored in session (for guest checkout)
-        $email = auth()->user()->email ?? session('customer_email');
+        // ✅ Use safe optional() helper to avoid errors if user not logged in
+        $email = optional(auth()->user())->email ?? session('customer_email');
 
         if (!$email) {
-            return redirect()->route('menu.index')
-                             ->with('error', 'Please log in or place an order first.');
+            return redirect()
+                ->route('customer.menu.index')
+                ->with('error', 'Please log in or place an order first.');
         }
 
-        // Fetch orders for this customer
+        // ✅ Fetch orders belonging to this customer email
         $orders = Order::where('customer_email', $email)
-                        ->orderBy('created_at', 'desc')
-                        ->get();
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-        // Send to Blade view
+        // ✅ Make sure this view exists: resources/views/customer/orders.blade.php
         return view('customer.orders', compact('orders'));
     }
 }

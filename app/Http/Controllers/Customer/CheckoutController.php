@@ -18,7 +18,7 @@ class CheckoutController extends Controller
         $cart = session('cart', []);
 
         if (empty($cart)) {
-            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+            return redirect()->route('customer.cart.index')->with('error', 'Your cart is empty.');
         }
 
         return view('customer.checkout');
@@ -38,7 +38,7 @@ class CheckoutController extends Controller
         $cart = session('cart', []);
 
         if (empty($cart)) {
-            return redirect()->route('cart.index')->with('error', 'Your cart is empty.');
+            return redirect()->route('customer.cart.index')->with('error', 'Your cart is empty.');
         }
 
         // Calculate total (items + delivery)

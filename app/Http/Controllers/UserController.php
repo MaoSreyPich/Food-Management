@@ -38,49 +38,41 @@ class UserController extends Controller
         return redirect('/register')->with('error', 'Registration failed');
     }
 
-    public function checkLogin(Request $request)
-    {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
-        ]);
-    
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            $user = Auth::user();
-    
-            // 🛑 Blocked user check
-            if (isset($user->status) && $user->status === 'blocked') {
-                Auth::logout();
-                return back()->withErrors([
-                    'email' => 'Your account has been blocked by the admin.'
-                ])->withInput();
-            }
-    
-            // ✅ Redirect based on role
-            if (isset($user->role) && (int)$user->role === 1) {
-                return redirect('/admin');
-            }
-    
-            return redirect('/user');
-        }
-    
-        return back()->withErrors(['email' => 'Invalid credentials'])->withInput();
-    }
+   public function checkLogin(Request $request)
+{
+    $credentials = $request->validate([
+        'email' => 'required|email',
+        'password' => 'required'
+    ]);
 
-
-    public function admin()
-    {
-        if (!Auth::check()) {
-            return redirect('/login');
-        }
-
+    // ✅ Attempt login
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
         $user = Auth::user();
 
-        if (isset($user->role) && (int)$user->role === 1) {
-            return view('admin.admin');
+        // 🛑 Blocked user check
+        if (isset($user->status) && $user->status === 'blocked') {
+            Auth::logout();
+            return back()->withErrors([
+                'email' => 'Your account has been blocked by the admin.'
+            ])->withInput();
         }
 
-        return redirect('/user');
+        // ✅ Redirect based on role
+        if (isset($user->role) && (int)$user->role === 1) {
+            // Admin user
+            return redirect()->route('admin.dashboard')
+                             ->with('success', 'Welcome back, Admin!');
+        } else {
+            // Normal customer user
+            return redirect()->route('customer.dashboard')
+                             ->with('success', 'Welcome back!');
+        }
     }
+
+    // ❌ Failed authentication
+    return back()->withErrors([
+        'email' => 'Invalid credentials. Please check your email or password.'
+    ])->withInput();
+}
 }

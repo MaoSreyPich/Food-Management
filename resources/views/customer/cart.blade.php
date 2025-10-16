@@ -1,4 +1,5 @@
-@extends('layouts.app')
+@extends('layout.customer')
+
 @section('title', 'Your Cart')
 
 @section('content')
@@ -70,7 +71,7 @@
 
         <div class="d-flex justify-content-between align-items-center mt-4">
             <h4>Total: <span class="text-success">${{ number_format($total, 2) }}</span></h4>
-            <a href="{{ route('checkout.index') }}" class="btn btn-primary btn-lg">Proceed to Checkout</a>
+            <a href="{{ route('customer.checkout.index') }}" class="btn btn-primary btn-lg">Proceed to Checkout</a>
         </div>
     @else
         <div class="text-center">
