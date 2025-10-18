@@ -7,7 +7,8 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(135deg, #000000ff, #6794e2ff);
+      background-color: #fffaf5;
+      color: #333;
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -34,11 +35,11 @@
       transition: all 0.3s ease;
     }
     .form-control:focus {
-      border-color: #6a11cb;
-      box-shadow: 0 0 0 0.25rem rgba(106, 17, 203, 0.25);
+      border-color: #ff5900ff;
+      box-shadow: 0 0 0 0.25rem #ff5900ff(106, 17, 203, 0.25);
     }
     .btn-primary {
-      background: linear-gradient(90deg, #6a11cb, #2575fc);
+      background: linear-gradient(90deg, #ff5900ff, #ff5900ff);
       border: none;
       border-radius: 10px;
       padding: 12px;
@@ -48,16 +49,16 @@
     }
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 15px rgba(37, 117, 252, 0.4);
+      box-shadow: 0 6px 15px rgba(255, 120, 18, 0.4);
     }
     .text-center a {
-      color: #2575fc;
+      color: #fc6225ff;
       text-decoration: none;
       font-weight: 600;
       transition: color 0.2s ease;
     }
     .text-center a:hover {
-      color: #6a11cb;
+      color: #ff5e00ff;
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }

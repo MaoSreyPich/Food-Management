@@ -20,59 +20,6 @@
       </tr>
     </thead>
     <tbody class="text-center">
-      {{-- EXAMPLE ORDERS START --}}
-      <tr>
-        <td>1001</td>
-        <td>Alice Johnson</td>
-        <td>alice.j@example.com</td>
-        <td>145.50</td>
-        <td>
-          <span class="badge bg-success">
-            Accepted
-          </span>
-        </td>
-        <td>
-          <button class="btn btn-outline-success btn-sm" disabled>Accept</button>
-          <button class="btn btn-outline-danger btn-sm" disabled>Reject</button>
-          <button class="btn btn-outline-info btn-sm">Delivered</button>
-          <button class="btn btn-outline-danger btn-sm">🗑</button>
-        </td>
-      </tr>
-      <tr>
-        <td>1002</td>
-        <td>Bob Smith</td>
-        <td>bob.s@example.com</td>
-        <td>49.99</td>
-        <td>
-          <span class="badge bg-secondary">
-            Pending
-          </span>
-        </td>
-        <td>
-          <button class="btn btn-outline-success btn-sm">Accept</button>
-          <button class="btn btn-outline-danger btn-sm">Reject</button>
-          <button class="btn btn-outline-info btn-sm">Delivered</button>
-          <button class="btn btn-outline-danger btn-sm">🗑</button>
-        </td>
-      </tr>
-      <tr>
-        <td>1003</td>
-        <td>Charlie Brown</td>
-        <td>charlie.b@example.com</td>
-        <td>270.00</td>
-        <td>
-          <span class="badge bg-danger">
-            Rejected
-          </span>
-        </td>
-        <td>
-          <button class="btn btn-outline-success btn-sm" disabled>Accept</button>
-          <button class="btn btn-outline-danger btn-sm" disabled>Reject</button>
-          <button class="btn btn-outline-info btn-sm" disabled>Delivered</button>
-          <button class="btn btn-outline-danger btn-sm">🗑</button>
-        </td>
-      </tr>
-      {{-- EXAMPLE ORDERS END --}}
       @foreach ($orders as $order)
       <tr>
         <td>{{ $order->id }}</td>

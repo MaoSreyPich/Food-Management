@@ -1,4 +1,5 @@
 @extends('layout.app')
+@section('title', 'Menu Management')
 
 @section('content')
 <div class="container py-4">

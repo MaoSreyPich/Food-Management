@@ -40,9 +40,10 @@
                         @endphp
                         <tr>
                             <td>
-                                <img src="{{ asset('storage/' . $item['image']) }}" 
-                                     alt="{{ $item['name'] }}" width="70" height="70"
-                                     style="object-fit: cover;">
+                                 <img src="{{ asset($item['image']) }}" 
+                                alt="{{ $item['name'] }}" width="70" height="70"
+                                style="object-fit: cover;">
+
                             </td>
                             <td>{{ $item['name'] }}</td>
                             <td>${{ number_format($item['price'], 2) }}</td>
@@ -51,8 +52,8 @@
                                     @csrf
                                     <input type="hidden" name="id" value="{{ $id }}">
                                     <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="1"
-                                           class="form-control d-inline-block text-center" style="width: 70px;">
-                                    <button type="submit" class="btn btn-sm btn-success mt-2">Update</button>
+                                           class="form-control d-inline-block text-center custom-quantity-input" style="width: 60px; height: 38px;">
+                                    <button type="submit" class="btn btn-sm btn-success custom-update-button">Update</button>
                                 </form>
                             </td>
                             <td>${{ number_format($subtotal, 2) }}</td>

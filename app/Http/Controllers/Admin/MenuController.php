@@ -15,9 +15,10 @@ class MenuController extends Controller
     public function index()
     {
         $menus = Menu::with('category')->get();
-        $categories = Category::all(); 
+        $categories = Category::all(); // Needed for your modals dropdown
         return view('admin.menus.index', compact('menus', 'categories'));
     }
+
 
     public function create()
     {
