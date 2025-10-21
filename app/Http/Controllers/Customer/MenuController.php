@@ -15,11 +15,8 @@ class MenuController extends Controller
     public function index()
     {
         $categories = Category::all();
-
-        // Show 4 random "popular" dishes
-        $popularMenus = Menu::inRandomOrder()->take(4)->get();
-
-        $menus = Menu::with('category')->get();
+        $menus = Menu::paginate(4); // ✅ Fix here: use pagination
+        $popularMenus = Menu::inRandomOrder()->limit(4)->get();
 
         return view('customer.menu', compact('categories', 'menus', 'popularMenus'));
     }

@@ -14,8 +14,8 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menus = Menu::with('category')->get();
-        $categories = Category::all(); // Needed for your modals dropdown
+        $menus = Menu::with('category')->paginate(8);
+        $categories = Category::all(); 
         return view('admin.menus.index', compact('menus', 'categories'));
     }
 
@@ -48,7 +48,7 @@ class MenuController extends Controller
                 mkdir($uploadPath, 0755, true);
             }
             $file->move($uploadPath, $imageName);
-            $data['image'] = 'uploads/menus/' . $imageName;
+            $data['image'] = url('uploads/menus/' . $imageName);
         }
 
         Menu::create($data);
