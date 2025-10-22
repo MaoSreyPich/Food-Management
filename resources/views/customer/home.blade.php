@@ -245,7 +245,7 @@
                             </path></svg></div><h3 class="text-xl font-semibold mb-2">Quality Guaranteed</h3>
         <p class="text-muted-foreground">Only the best restaurants and highest quality ingredients</p></div></div>
 
-    {{-- Popular Dishes --}}
+        {{-- Popular Dishes --}}
     <section class="container py-5">
         <h2 class="text-center fw-bold mb-2">Popular Dishes</h2>
         <p class="text-center text-muted mb-4">Explore our most loved menu items</p>
@@ -301,3 +301,72 @@
     @stack('scripts')
 </body>
 </html>
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(function(){
+    // precomputed URLs to keep Blade out of string concatenation
+    var addAjaxUrl = "{{ route('customer.cart.add.ajax') }}";
+    var cartUrl = "{{ route('customer.cart.index') }}";
+    var checkoutUrl = "{{ route('customer.checkout.index') }}";
+    var csrfToken = "{{ csrf_token() }}";
+
+    $(document).on('click', '.add-to-cart-btn', function(e){
+        e.preventDefault();
+        var id = $(this).data('id');
+
+        console.log('Adding to cart via AJAX:', addAjaxUrl, { id: id });
+
+        $.post(addAjaxUrl, { _token: csrfToken, id: id })
+            .done(function(resp){
+                console.log('Add to cart response:', resp);
+                // update cart count
+                $('#cart-count').text(resp.cart_count);
+
+                // build toast using variables
+                var html = ''+
+                    '<div class="toast align-items-center text-bg-success border-0" role="alert" aria-live="polite" aria-atomic="true">'+
+                      '<div class="d-flex">'+
+                        '<div class="toast-body">'+
+                          resp.message +
+                          ' <div class="mt-2 pt-2 border-top">'+
+                            '<a href="'+cartUrl+'" class="btn btn-sm btn-light me-2">View Cart</a>'+
+                            '<a href="'+checkoutUrl+'" class="btn btn-sm btn-primary">Checkout</a>'+
+                          '</div>'+
+                        '</div>'+
+                        '<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>'+
+                      '</div>'+
+                    '</div>';
+
+                var $t = $(html);
+                $('#toast-container').append($t);
+                var tEl = $t.get(0);
+                var bs = new bootstrap.Toast(tEl, { delay: 4000 });
+                bs.show();
+                $t.on('hidden.bs.toast', function(){ $(this).remove(); });
+                        })
+                        .fail(function(xhr, status, error){
+                                console.error('Add to cart failed', status, error, xhr.responseText);
+                                var message = 'Failed to add item to cart.';
+                                try{ var json = JSON.parse(xhr.responseText); if(json.message) message = json.message; }catch(e){}
+                                // show a red toast instead of simple alert
+                                var err = ''+
+                                        '<div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="polite" aria-atomic="true">'+
+                                            '<div class="d-flex">'+
+                                                '<div class="toast-body">'+ message +'</div>'+
+                                                '<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>'+
+                                            '</div>'+
+                                        '</div>';
+                                var $err = $(err);
+                                $('#toast-container').append($err);
+                                var errEl = $err.get(0);
+                                new bootstrap.Toast(errEl, { delay: 4000 }).show();
+                                $err.on('hidden.bs.toast', function(){ $(this).remove(); });
+                        });
+    });
+});
+</script>
+
+{{-- Toast container for home page toasts --}}
+<div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 1080;"></div>
+@endpush
