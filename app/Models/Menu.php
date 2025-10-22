@@ -28,4 +28,10 @@ class Menu extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+    public function index() {
+        $menus = Menu::all(); // Make sure this returns all menu items
+        return view('customer.menu', compact('menus'));
+    }
+    
+
 }

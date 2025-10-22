@@ -1,5 +1,5 @@
 @extends('layout.app')
-
+@section('title', 'Menu Management')
 @section('content')
 <div class="container py-4">
   <div class="d-flex justify-content-between align-items-center mb-4">

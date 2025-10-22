@@ -14,10 +14,11 @@ class MenuController extends Controller
 {
     public function index()
     {
-        $menus = Menu::with('category')->get();
+        $menus = Menu::with('category')->paginate(8);
         $categories = Category::all(); 
         return view('admin.menus.index', compact('menus', 'categories'));
     }
+
 
     public function create()
     {
@@ -47,7 +48,7 @@ class MenuController extends Controller
                 mkdir($uploadPath, 0755, true);
             }
             $file->move($uploadPath, $imageName);
-            $data['image'] = 'uploads/menus/' . $imageName;
+               $data['image'] = url('uploads/menus/' . $imageName);
         }
 
         Menu::create($data);

@@ -14,6 +14,7 @@ class CartController extends Controller
         return view('customer.cart', compact('cart'));
     }
 
+    // 🟢 Normal Add (old method) — keeps redirect for fallback
     public function add($id)
     {
         $menu = Menu::findOrFail($id);
@@ -26,12 +27,39 @@ class CartController extends Controller
                 "name" => $menu->name,
                 "quantity" => 1,
                 "price" => $menu->price,
-                "image" => $menu->image
+                "image" => $menu->image,
             ];
         }
 
         session()->put('cart', $cart);
-        return redirect()->route('customer.cart.index')->with('success', 'Item added to cart!');
+
+        return redirect()->route('customer.cart.index')
+            ->with('success', 'Item added to cart!');
+    }
+
+    // 🟡 AJAX Add (no redirect)
+    public function addAjax(Request $request)
+    {
+        $menu = Menu::findOrFail($request->id);
+        $cart = session()->get('cart', []);
+
+        if (isset($cart[$menu->id])) {
+            $cart[$menu->id]['quantity']++;
+        } else {
+            $cart[$menu->id] = [
+                "name" => $menu->name,
+                "quantity" => 1,
+                "price" => $menu->price,
+                "image" => $menu->image,
+            ];
+        }
+
+        session()->put('cart', $cart);
+
+        return response()->json([
+            'message' => $menu->name . ' added to cart!',
+            'cart_count' => count($cart)
+        ]);
     }
 
     public function update(Request $request)
@@ -40,7 +68,9 @@ class CartController extends Controller
             $cart = session()->get('cart');
             $cart[$request->id]["quantity"] = $request->quantity;
             session()->put('cart', $cart);
-            return redirect()->route('customer.cart.index')->with('success', 'Cart updated successfully');
+
+            return redirect()->route('customer.cart.index')
+                ->with('success', 'Cart updated successfully');
         }
     }
 
@@ -52,13 +82,16 @@ class CartController extends Controller
                 unset($cart[$request->id]);
                 session()->put('cart', $cart);
             }
-            return redirect()->route('customer.cart.index')->with('success', 'Item removed successfully');
+
+            return redirect()->route('customer.cart.index')
+                ->with('success', 'Item removed successfully');
         }
     }
 
     public function clear()
     {
         session()->forget('cart');
-        return redirect()->route('customer.cart.index')->with('success', 'Cart cleared successfully');
+        return redirect()->route('customer.cart.index')
+            ->with('success', 'Cart cleared successfully');
     }
 }

@@ -15,10 +15,22 @@ class MenuController extends Controller
     public function index()
     {
         $categories = Category::all();
-        $menus = Menu::with('category')->get();
 
-        return view('customer.menu', compact('categories', 'menus'));
+         $menus = Menu::paginate(4); // ✅ Fix here: use pagination
+        $popularMenus = Menu::inRandomOrder()->limit(4)->get();
+
+        return view('customer.menu', compact('categories', 'menus', 'popularMenus'));
     }
+
+    /**
+     * Home page with popular dishes.
+     */
+    public function home()
+    {
+        $popularMenus = Menu::inRandomOrder()->limit(4)->get();
+        return view('customer.home', compact('popularMenus'));
+    }
+
 
     /**
      * Add an item to the cart.

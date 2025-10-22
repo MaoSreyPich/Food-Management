@@ -67,55 +67,57 @@
 <!--  Add Modal -->
 
 <!--  Edit Modal -->
-  <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 30%;">
-      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden" style="background: #ffffff;">
-        <form action="{{ route('admin.categories.update', $category->id) }}" method="POST">
-          @csrf
-          @method('PUT')
-          <div class="modal-header bg-light text-dark d-flex justify-content-center position-relative">
-            <h3 class="modal-title fw-bold m-0" style="font-family: sans-serif;" id="editModalLabel">Edit Category</h3>
-            <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 30%;">
+    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden" style="background: #ffffff;">
+      <form id="editForm" method="POST">
+        @csrf
+        @method('PUT')
+        <div class="modal-header bg-light text-dark d-flex justify-content-center position-relative">
+          <h3 class="modal-title fw-bold m-0" style="font-family: sans-serif;" id="editModalLabel">Edit Category</h3>
+          <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Category Name</label>
+            <input type="text" name="name" id="categoryName" class="form-control" required>
           </div>
-          <div class="modal-body">
-            <div class="mb-3">
-              <label class="form-label fw-semibold">Category Name</label>
-              <input type="text" name="name" id="categoryName" class="form-control" value="{{ old('name', $category->name) }}" required>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-success">Update</button>
-          </div>
-        </form>
-      </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-success">Update</button>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 <!--  Edit Modal -->
 
+
 <!--  Delete Modal -->
-  <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 28%;">
-      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden" style="background: #ffffff;">
-        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST">
-          @csrf
-          @method('DELETE')
-          <div class="modal-header bg-light text-dark d-flex justify-content-center position-relative">
-            <h3 class="modal-title fw-bold m-0" style="font-family: sans-serif;" id="deleteModalLabel">Delete Category</h3>
-            <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body text-center">
-            <p class="fs-5 text-dark">Are you sure you want to delete <strong id="deleteCategoryName"></strong>?</p>
-          </div>
-          <div class="modal-footer justify-content-center">
-            <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
-            <button type="submit" class="btn btn-danger">Delete</button>
-          </div>
-        </form>
-      </div>
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 28%;">
+    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden" style="background: #ffffff;">
+      <form id="deleteForm" method="POST">
+        @csrf
+        @method('DELETE')
+        <div class="modal-header bg-light text-dark d-flex justify-content-center position-relative">
+          <h3 class="modal-title fw-bold m-0" style="font-family: sans-serif;" id="deleteModalLabel">Delete Category</h3>
+          <button type="button" class="btn-close position-absolute end-0 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <p class="fs-5 text-dark">Are you sure you want to delete <strong id="deleteCategoryName"></strong>?</p>
+        </div>
+        <div class="modal-footer justify-content-center">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+      </form>
     </div>
   </div>
+</div>
 <!--  Delete Modal -->
+
 
 @endsection
 

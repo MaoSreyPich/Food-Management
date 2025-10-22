@@ -17,7 +17,7 @@
         <th>Total ($)</th>
         <th>Status</th>
         <th>Actions</th>
-      </tr>
+         </tr>
     </thead>
     <tbody class="text-center">
       {{-- EXAMPLE ORDERS START --}}

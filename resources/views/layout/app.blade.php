@@ -50,6 +50,9 @@
   <div class="content">
     @yield('content')
   </div>
+  
+  {{-- Render page-specific scripts pushed by views --}}
+  @stack('scripts')
 </body>
 </html>
 

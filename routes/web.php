@@ -25,9 +25,7 @@ use App\Http\Controllers\Customer\CheckoutController;
 // ==========================
 // Public Routes
 // ==========================
-Route::get('/', function () {
-    return view('customer.home');
-});
+Route::get('/', [CustomerMenuController::class, 'home']);
 
 // ==========================
 // Auth Routes
@@ -46,6 +44,8 @@ Route::prefix('customer')->name('customer.')->group(function () {
 
     // Cart
     Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/cart/add-ajax', [CartController::class, 'addAjax'])
+    ->name('cart.add.ajax');
     Route::get('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
     Route::post('/cart/update', [CartController::class, 'update'])->name('cart.update');
     Route::post('/cart/remove', [CartController::class, 'remove'])->name('cart.remove');
