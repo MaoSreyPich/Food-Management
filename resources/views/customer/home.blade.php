@@ -291,7 +291,6 @@
             </div>
         </div>
     </div>
-
         <div class="container">
             <p>&copy; {{ date('Y') }} Bistro Bliss. All rights reserved.</p>
         </div>
@@ -301,3 +300,4 @@
     @stack('scripts')
 </body>
 </html>
+

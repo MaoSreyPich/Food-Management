@@ -1,8 +1,8 @@
 @extends('layout.app')
 
 @section('content')
-<div class="container py-4">
-  <h2 class="fw-bold mb-4 text-center" style="font-family: sans-serif;">🧾 Manage Orders</h2>
+<div class="container-fluid py-4">
+  <h2 class="fw-bold mb-5 text-center" style="font-family: sans-serif;">🧾 Manage Orders</h2>
 
   @if (session('success'))
     <div class="alert alert-success">{{ session('success') }}</div>
@@ -17,62 +17,9 @@
         <th>Total ($)</th>
         <th>Status</th>
         <th>Actions</th>
-         </tr>
+      </tr>
     </thead>
     <tbody class="text-center">
-      {{-- EXAMPLE ORDERS START --}}
-      <tr>
-        <td>1001</td>
-        <td>Alice Johnson</td>
-        <td>alice.j@example.com</td>
-        <td>145.50</td>
-        <td>
-          <span class="badge bg-success">
-            Accepted
-          </span>
-        </td>
-        <td>
-          <button class="btn btn-outline-success btn-sm" disabled>Accept</button>
-          <button class="btn btn-outline-danger btn-sm" disabled>Reject</button>
-          <button class="btn btn-outline-info btn-sm">Delivered</button>
-          <button class="btn btn-outline-danger btn-sm">🗑</button>
-        </td>
-      </tr>
-      <tr>
-        <td>1002</td>
-        <td>Bob Smith</td>
-        <td>bob.s@example.com</td>
-        <td>49.99</td>
-        <td>
-          <span class="badge bg-secondary">
-            Pending
-          </span>
-        </td>
-        <td>
-          <button class="btn btn-outline-success btn-sm">Accept</button>
-          <button class="btn btn-outline-danger btn-sm">Reject</button>
-          <button class="btn btn-outline-info btn-sm">Delivered</button>
-          <button class="btn btn-outline-danger btn-sm">🗑</button>
-        </td>
-      </tr>
-      <tr>
-        <td>1003</td>
-        <td>Charlie Brown</td>
-        <td>charlie.b@example.com</td>
-        <td>270.00</td>
-        <td>
-          <span class="badge bg-danger">
-            Rejected
-          </span>
-        </td>
-        <td>
-          <button class="btn btn-outline-success btn-sm" disabled>Accept</button>
-          <button class="btn btn-outline-danger btn-sm" disabled>Reject</button>
-          <button class="btn btn-outline-info btn-sm" disabled>Delivered</button>
-          <button class="btn btn-outline-danger btn-sm">🗑</button>
-        </td>
-      </tr>
-      {{-- EXAMPLE ORDERS END --}}
       @foreach ($orders as $order)
       <tr>
         <td>{{ $order->id }}</td>
@@ -87,34 +34,36 @@
         <td>
           <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id, 'status' => 'Accepted']) }}" method="POST" class="d-inline">
             @csrf
-            <button class="btn btn-success btn-sm">Accept</button>
+            <button class="btn btn-success btn-md">Accept</button>
           </form>
 
           <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id, 'status' => 'Rejected']) }}" method="POST" class="d-inline">
             @csrf
-            <button class="btn btn-danger btn-sm">Reject</button>
+            <button class="btn btn-danger btn-md">Reject</button>
           </form>
 
           <form action="{{ route('admin.orders.updateStatus', ['id' => $order->id, 'status' => 'Delivered']) }}" method="POST" class="d-inline">
             @csrf
-            <button class="btn btn-info btn-sm">Delivered</button>
+            <button class="btn btn-info btn-md">Delivered</button>
           </form>
 
           <form action="{{ route('admin.orders.destroy', $order->id) }}" method="POST" class="d-inline">
             @csrf @method('DELETE')
-            <button class="btn btn-outline-danger btn-sm">🗑</button>
+            <button class="btn btn-outline-danger btn-md">🗑</button>
           </form>
         </td>
       </tr>
       @endforeach
     </tbody>
   </table>
+      <div class="col-sm-6 d-flex py-4 justify-content-end">
+        {{ $orders->links('pagination::bootstrap-5') }}
+    </div>
 </div>
 @endsection
 <style>
   /* Import a modern, clean Google Font */
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-  
   body {
     font-family: 'Inter', sans-serif;
     font-size: 20px;
@@ -124,6 +73,7 @@
   
   /* Table Styling */
   .table {
+    padding: 100px;
     border-radius: 12px;
     overflow: hidden;
     background: white;
@@ -134,12 +84,12 @@
     background-color: #000;
     color: white;
     font-weight: 600;
-    font-size:20px ;
+    font-size:25px ;
     text-transform: uppercase;
   }
   
   .table td {
-    font-size: 18px;
+    font-size: 19px;
     vertical-align: middle;
   }
   
@@ -186,5 +136,84 @@
   .btn-success:hover {
     transform: scale(1.05);
     box-shadow: 0 3px 18px rgba(154, 245, 163, 0.4);
+  }
+   /* Target the pagination links container for styling */
+  .col-sm-6.justify-content-end nav {
+      /* Optional: Ensure the pagination navigation element respects the flexbox container */
+      margin: 0;
+      padding: 0;
+  }
+
+  /* Base Pagination Container Styling (ul element) */
+  .col-sm-6.justify-content-end .pagination {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: 20px;
+  }
+
+  .col-sm-6.justify-content-end .pagination .page-item {
+      list-style: none;
+  }
+
+  /* Pagination Link Base Style (a or span element) */
+  .col-sm-6.justify-content-end .pagination .page-link {
+      color: #000;
+      background-color: #fff;
+      border: 2px solid #000;
+      padding: 0.75rem 1.25rem;
+      font-weight: 400; 
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.35rem;
+      line-height: 1; /* Essential for vertical alignment */
+  }
+
+  /* Hover State */
+  .col-sm-6.justify-content-end .pagination .page-link:hover {
+      color: #fff;
+      background-color: #000;
+      border-color: #000;
+      transform: none; /* No vertical movement on hover */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Active State */
+  .col-sm-6.justify-content-end .pagination .page-item.active .page-link {
+      color: #fff;
+      background-color: #000;
+      border-color: #000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Disabled State */
+  .col-sm-6.justify-content-end .pagination .page-item.disabled .page-link {
+      color: #999;
+      background-color: #f5f5f5;
+      border-color: #ddd;
+      cursor: not-allowed;
+      opacity: 0.8;
+  }
+
+  .col-sm-6.justify-content-end .pagination .page-item.disabled .page-link:hover {
+      transform: none;
+      box-shadow: none;
+      background-color: #f5f5f5;
+      color: #999;
+  }
+
+  /* Focus State */
+  .col-sm-6.justify-content-end .pagination .page-link:focus {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+      box-shadow: none;
+  }
+
+  /* IMPORTANT: Hide the result count that Laravel generates inside the pagination block */
+  .col-sm-6.justify-content-end nav > div:first-child p.text-sm {
+      display: none !important;
   }
 </style> 

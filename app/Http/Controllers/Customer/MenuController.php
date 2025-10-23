@@ -22,6 +22,7 @@ class MenuController extends Controller
         return view('customer.menu', compact('categories', 'menus', 'popularMenus'));
     }
 
+
     /**
      * Home page with popular dishes.
      */

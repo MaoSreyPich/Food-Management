@@ -219,7 +219,11 @@
     <!-- Content Area -->
     <div class="content-area">
         @yield('content')
-    </div>
+    </main>
+
+    <footer class="text-center py-3  footer-expand-lg sticky-bottom">
+        &copy; {{ date('Y') }} FoodHub. All rights reserved.
+    </footer>
 
     <!-- Footer -->
     <footer class="footer">

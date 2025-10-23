@@ -3,33 +3,76 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Models\Order;
 use App\Models\Menu;
 use App\Models\Category;
-use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $totalUsers = class_exists(User::class) ? User::count() : 0;
-        $totalRevenue = class_exists(Order::class) ? (float) Order::sum('total_price') : 0;
-        $totalOrders = class_exists(Order::class) ? Order::count() : 0;
-        $totalMenuItems = class_exists(Menu::class) ? Menu::count() : 0;
+        // Overview counts
+        $totalUsers = User::count();
+        $totalRevenue = (float) Order::sum('total_price');
+        $totalOrders = Order::count();
+        $totalMenuItems = Menu::count();
 
-        // last 7 days labels
-        $last7Days = collect(range(6, 0))->map(fn($d) => Carbon::today()->subDays($d)->format('M d'))->toArray();
+        // Generate labels for last 7 days (oldest → newest)
+        $last7Days = collect(range(6, 0))->map(fn($d) =>
+            Carbon::today()->subDays($d)->format('M d')
+        )->toArray();
 
-        // simple counts per day (replace with real query by created_at date)
-        $orderCounts = collect($last7Days)->map(fn() => rand(0, 10))->toArray();
+        // Count orders for each day
+        $orderCounts = array_map(function ($label) {
+            $date = Carbon::createFromFormat('M d', $label)->year(Carbon::now()->year);
+            return Order::whereDate('created_at', $date)->count();
+        }, $last7Days);
 
-        $categoryLabels = class_exists(Category::class) ? Category::pluck('name')->toArray() : ['Food', 'Drink', 'Snack'];
-        $categoryValues = array_map(fn() => rand(50, 300), $categoryLabels);
+// ✅ Revenue Breakdown by Category
+        $categoryLabels = [];
+        $categoryValues = [];
+
+        // If order_items table exists, use it for accurate category revenue
+        if (
+            DB::getSchemaBuilder()->hasTable('order_items') &&
+            DB::getSchemaBuilder()->hasTable('menus') &&
+            DB::getSchemaBuilder()->hasTable('categories')
+        ) {
+            $rows = DB::table('order_items')
+                ->join('menus', 'order_items.menu_id', '=', 'menus.id')
+                ->join('categories', 'menus.category_id', '=', 'categories.id')
+                ->select('categories.name as category', DB::raw('SUM(order_items.price * order_items.quantity) as revenue'))
+                ->groupBy('categories.id', 'categories.name')
+                ->orderByDesc('revenue')
+                ->get();
+        } else {
+            // Fallback (no order_items table)
+            $rows = DB::table('menus')
+                ->join('categories', 'menus.category_id', '=', 'categories.id')
+                ->select('categories.name as category', DB::raw('SUM(menus.price) as revenue'))
+                ->groupBy('categories.id', 'categories.name')
+                ->orderByDesc('revenue')
+                ->get();
+        }
+
+        // Prepare arrays for Chart.js
+        foreach ($rows as $r) {
+            $categoryLabels[] = $r->category;
+            $categoryValues[] = (float) $r->revenue;
+        }
 
         return view('admin.dashboard', compact(
-            'totalUsers','totalRevenue','totalOrders','totalMenuItems',
-            'last7Days','orderCounts','categoryLabels','categoryValues'
+            'totalUsers',
+            'totalRevenue',
+            'totalOrders',
+            'totalMenuItems',
+            'last7Days',
+            'orderCounts',
+            'categoryLabels',
+            'categoryValues'
         ));
     }
 }
