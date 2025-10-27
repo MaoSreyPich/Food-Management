@@ -260,9 +260,8 @@
                             <p class="card-text text-muted mb-3">{{ Str::limit($menu->description ?? 'Delicious item', 80) }}</p>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="text-start">
-                                    <p class="mb-0 fw-bold text-danger">${{ number_format($menu->price, 2) }}</p>
+                                    
                                 </div>
-                                <button class="btn btn-warning add-to-cart-btn" data-id="{{ $menu->id }}">Add to Cart</button>
                             </div>
                         </div>
                     </div>
@@ -315,11 +314,8 @@ $(function(){
         e.preventDefault();
         var id = $(this).data('id');
 
-        console.log('Adding to cart via AJAX:', addAjaxUrl, { id: id });
-
         $.post(addAjaxUrl, { _token: csrfToken, id: id })
             .done(function(resp){
-                console.log('Add to cart response:', resp);
                 // update cart count
                 $('#cart-count').text(resp.cart_count);
 
@@ -344,25 +340,10 @@ $(function(){
                 var bs = new bootstrap.Toast(tEl, { delay: 4000 });
                 bs.show();
                 $t.on('hidden.bs.toast', function(){ $(this).remove(); });
-                        })
-                        .fail(function(xhr, status, error){
-                                console.error('Add to cart failed', status, error, xhr.responseText);
-                                var message = 'Failed to add item to cart.';
-                                try{ var json = JSON.parse(xhr.responseText); if(json.message) message = json.message; }catch(e){}
-                                // show a red toast instead of simple alert
-                                var err = ''+
-                                        '<div class="toast align-items-center text-bg-danger border-0" role="alert" aria-live="polite" aria-atomic="true">'+
-                                            '<div class="d-flex">'+
-                                                '<div class="toast-body">'+ message +'</div>'+
-                                                '<button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>'+
-                                            '</div>'+
-                                        '</div>';
-                                var $err = $(err);
-                                $('#toast-container').append($err);
-                                var errEl = $err.get(0);
-                                new bootstrap.Toast(errEl, { delay: 4000 }).show();
-                                $err.on('hidden.bs.toast', function(){ $(this).remove(); });
-                        });
+            })
+            .fail(function(){
+                alert('Failed to add item to cart.');
+            });
     });
 });
 </script>

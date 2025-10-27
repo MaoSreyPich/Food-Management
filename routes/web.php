@@ -21,7 +21,7 @@ use App\Http\Controllers\Customer\MenuController as CustomerMenuController;
 use App\Http\Controllers\Customer\CartController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\Customer\CheckoutController;
-
+use App\Http\Controllers\Customer\ProfileController;
 // ==========================
 // Public Routes
 // ==========================
@@ -68,6 +68,7 @@ Route::prefix('customer')->name('customer.')->group(function () {
 Route::middleware(['auth', 'admin'])
     ->prefix('admin')
     ->name('admin.')
+    
     ->group(function () {
         Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 
@@ -86,6 +87,18 @@ Route::middleware(['auth', 'admin'])
         Route::put('/users/{id}', [AdminUserController::class, 'update'])->name('users.update');
         Route::post('/users/{id}/toggle', [AdminUserController::class, 'toggleStatus'])->name('users.toggle');
     });
+
+
+// ==========================
+// Profile Routes
+// ==========================
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+
 
 // ==========================
 // Logout Route

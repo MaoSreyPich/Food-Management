@@ -180,10 +180,13 @@
 
                     @auth
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
-                                {{ Auth::user()->name }}
+                            <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" role="button" data-bs-toggle="dropdown">
+                                <img src="{{ Auth::user()->profile_image ? asset(Auth::user()->profile_image) : 'https://via.placeholder.com/40' }}" alt="avatar" class="rounded-circle me-2" style="width:36px;height:36px;object-fit:cover;">
+                                <span>{{ Auth::user()->name }}</span>
                             </a>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="{{ route('profile.edit') }}"><i class="fa fa-user me-2"></i>Profile</a></li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <form action="{{ route('logout') }}" method="POST">
                                         @csrf
@@ -196,6 +199,7 @@
                         <li class="nav-item">
                             <a href="{{ route('login') }}" class="nav-link">Login</a>
                         </li>
+
                         <li class="nav-item">
                             <a href="{{ route('register') }}" class="nav-link">Register</a>
                         </li>

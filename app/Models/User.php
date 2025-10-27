@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,13 +17,17 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-    'name',
-    'email',
-    'password',
-    'role',      // e.g., 'admin', 'customer'
-    'status'     // e.g., 'active', 'blocked'
-   ];
-
+        'name',
+        'email',
+        'password',
+        'role',        // admin, customer, etc.
+        'status',      // active, blocked, etc.
+        'username',    // new field for profile
+        'phone',       // new field
+        'birth',       // date of birth
+        'gender',      // male/female/other
+        'profile_image', // user profile photo
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -43,6 +46,15 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birth' => 'date',
         'role' => 'string',
     ];
+
+    /**
+     * Accessor: get full name if you ever split first/last name later.
+     */
+    public function getDisplayNameAttribute()
+    {
+        return $this->name ?? $this->username ?? 'User';
+    }
 }

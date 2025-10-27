@@ -104,7 +104,7 @@
                         </table>
                         <div class="text-center mt-3">
                             <small class="text-muted">
-                                Secure checkout powered by FoodHub 🍔
+                                Secure checkout powered by Bistro Bliss 🍔
                             </small>
                         </div>
                     </div>
