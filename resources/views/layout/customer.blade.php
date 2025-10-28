@@ -38,12 +38,11 @@
             flex: 1; /* Pushes the footer to the bottom (of the document, then padding takes effect) */
         }
         
-        .sticky-bottom {
+        .footer {
             /* Changed from sticky to fixed for viewport stickiness */
-            position: fixed !important; 
-            bottom: 0;
             width: 100%;
-            z-index: 1030; /* Ensure it stays above other content */
+            height: 100vh;
+            margin-bottom: auto;
             background-color: #f8f9fa; /* Ensure footer has a solid background */
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
         }
@@ -266,7 +265,7 @@
     
 
     {{-- Removed mb-2 class as it adds space that interferes with fixed positioning --}}
-    <footer class="footer text-center text-md-start py-1 sticky-bottom">
+    <footer class="footer text-center text-md-start py-1 ">
         <div class="container-fluid mt-2">
             <div class="row align-items-center">
                    <div class="col-md-2 text-center text-md-start">

@@ -34,12 +34,14 @@
                     @endforeach
                 </tbody>
             </table>
-            <a href="{{ url('/') }}" class="btn btn-outline-info mt-3">Back to Home</a>      
+            <div class="text-center mt-4">
+                <a href="{{ url('/') }}" class="btn btn-dark btn-lg px-5 py-3 rounded-4">← Back to Home</a>
+            </div>
         </div>
     @else
-        <div class="text-center">
-            <p class="text-muted fs-5">You haven’t placed any orders yet.</p>
-            <a href="{{ route('customer.menu.index') }}" class="btn btn-outline-primary mt-3">Browse Menu</a>
+        <div class="text-center mt-5">
+            <p class="text-muted fs-4">You haven’t placed any orders yet.💁‍♀️ </p>
+            <a href="{{ route('customer.menu.index') }}" class="btn btn-dark px-5 py-3 mt-3 fs-5">Browse Menu</a>
         </div>
     @endif
 </div>
@@ -120,5 +122,9 @@
     transform: scale(1.05);
     transition: all 0.2s ease;
     }
+    footer {
+    display: none !important;
+    } 
+
 
 </style>

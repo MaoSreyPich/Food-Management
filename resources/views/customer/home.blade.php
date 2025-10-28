@@ -330,7 +330,7 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer text-center text-md-start py-1 mb-2 sticky-bottom ">
+    <footer class="footer text-center text-md-start py-1 mb-2  ">
         <!-- Top Section: Contact + Social -->
         <div class="container-fluid border-bottom mt-2">
             <div class="row align-items-center">
