@@ -33,9 +33,10 @@
         <td>{{ $menu->name }}</td>
         <td>
           @if($menu->image)
-          <img src="{{ $menu->image }}" alt="{{ $menu->name }}" width="60" height="60" style="object-fit:cover;border-radius:8px;">
+            <img src="{{ asset($menu->image) }}" alt="{{ $menu->name }}" width="60" height="60"
+              style="object-fit:cover;border-radius:8px;">
           @else
-          <span class="text-muted">No Image</span>
+            <span class="text-muted">No Image</span>
           @endif
         </td>
         <td>
@@ -49,19 +50,20 @@
         <td>{{ $menu->stock }}</td>
         <td>
           <!-- Edit Button -->
-          <button
-            class="btn btn-md btn-outline-warning me-2 editMenuBtn"
-            data-bs-toggle="modal"
-            data-bs-target="#editMenuModal"
-            data-id="{{ $menu->id }}"
-            data-name="{{ $menu->name }}"
-            data-subtitle="{{ $menu->subtitle }}"
-            data-description="{{ $menu->description }}"
-            data-price="{{ $menu->price }}"
-            data-stock="{{ $menu->stock }}"
-
-            data-image="{{ asset($menu->image) }}">Edit
-          </button>
+            <button
+              class="btn btn-md btn-outline-warning me-2 editMenuBtn"
+              data-bs-toggle="modal"
+              data-bs-target="#editMenuModal"
+              data-id="{{ $menu->id }}"
+              data-name="{{ $menu->name }}"
+              data-subtitle="{{ $menu->subtitle }}"
+              data-description="{{ $menu->description }}"
+              data-price="{{ $menu->price }}"
+              data-stock="{{ $menu->stock }}"
+              data-category-id="{{ $menu->category_id }}"
+              data-image="{{ asset($menu->image) }}">
+              Edit
+            </button>
           <!-- Delete Button -->
           <button class="btn btn-md btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#deleteMenuModal" data-id="{{ $menu->id }}" data-name="{{ $menu->name }}">Delete</button>
 

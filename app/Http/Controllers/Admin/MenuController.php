@@ -48,8 +48,11 @@ class MenuController extends Controller
                 mkdir($uploadPath, 0755, true);
             }
             $file->move($uploadPath, $imageName);
-               $data['image'] = url('uploads/menus/' . $imageName);
+
+            // ✅ Store only relative path
+            $data['image'] = 'uploads/menus/' . $imageName;
         }
+
 
         Menu::create($data);
 
