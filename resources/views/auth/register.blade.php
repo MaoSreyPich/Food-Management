@@ -7,7 +7,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
+<<<<<<< HEAD
       background-color: #fffaf5;
+=======
+      background-color: #fbfbfbff;
+>>>>>>> d04bec7519b7ebcd7c7cdef9f1e02fa52f16a4dd
       color: #333;
       min-height: 100vh;
       display: flex;
@@ -39,7 +43,12 @@
       box-shadow: 0 0 0 0.25rem #ff5900ff(106, 17, 203, 0.25);
     }
     .btn-primary {
+<<<<<<< HEAD
     background: linear-gradient(90deg, #ff5900ff, #ff5900ff);
+=======
+      background: linear-gradient(90deg, #ff5900ff, #ff5900ff);
+      border: none;
+>>>>>>> d04bec7519b7ebcd7c7cdef9f1e02fa52f16a4dd
       border-radius: 10px;
       padding: 12px;
       font-size: 1rem;
@@ -48,6 +57,7 @@
     }
     .btn-primary:hover {
       transform: translateY(-2px);
+<<<<<<< HEAD
             box-shadow: 0 6px 15px rgba(255, 120, 18, 0.4);
     }
     .form-check-label a {
@@ -62,11 +72,22 @@
     .text-center a {
      color: #fc6225ff;
       font-weight: 600;
+=======
+      box-shadow: 0 6px 15px rgba(255, 120, 18, 0.4);
+    }
+    .text-center a {
+      color: #fc6225ff;
+>>>>>>> d04bec7519b7ebcd7c7cdef9f1e02fa52f16a4dd
       text-decoration: none;
+      font-weight: 600;
       transition: color 0.2s ease;
     }
     .text-center a:hover {
+<<<<<<< HEAD
      color: #ff5e00ff;
+=======
+      color: #ff5e00ff;
+>>>>>>> d04bec7519b7ebcd7c7cdef9f1e02fa52f16a4dd
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }

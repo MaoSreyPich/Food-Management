@@ -7,7 +7,11 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
+<<<<<<< HEAD
       background-color: #fffaf5;
+=======
+      background-color: #fbfbfbff;
+>>>>>>> d04bec7519b7ebcd7c7cdef9f1e02fa52f16a4dd
       color: #333;
       min-height: 100vh;
       display: flex;
@@ -35,11 +39,19 @@
       transition: all 0.3s ease;
     }
     .form-control:focus {
+<<<<<<< HEAD
        border-color: #ff5900ff;
       box-shadow: 0 0 0 0.25rem #ff5900ff(106, 17, 203, 0.25);
     }
     .btn-primary {
      background: linear-gradient(90deg, #ff5900ff, #ff5900ff);
+=======
+      border-color: #ff5900ff;
+      box-shadow: 0 0 0 0.25rem #ff5900ff(106, 17, 203, 0.25);
+    }
+    .btn-primary {
+      background: linear-gradient(90deg, #ff5900ff, #ff5900ff);
+>>>>>>> d04bec7519b7ebcd7c7cdef9f1e02fa52f16a4dd
       border: none;
       border-radius: 10px;
       padding: 12px;
@@ -49,7 +61,11 @@
     }
     .btn-primary:hover {
       transform: translateY(-2px);
+<<<<<<< HEAD
      box-shadow: 0 6px 15px rgba(255, 120, 18, 0.4);
+=======
+      box-shadow: 0 6px 15px rgba(255, 120, 18, 0.4);
+>>>>>>> d04bec7519b7ebcd7c7cdef9f1e02fa52f16a4dd
     }
     .text-center a {
       color: #fc6225ff;
@@ -58,7 +74,11 @@
       transition: color 0.2s ease;
     }
     .text-center a:hover {
+<<<<<<< HEAD
        color: #ff5e00ff;
+=======
+      color: #ff5e00ff;
+>>>>>>> d04bec7519b7ebcd7c7cdef9f1e02fa52f16a4dd
     }
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }

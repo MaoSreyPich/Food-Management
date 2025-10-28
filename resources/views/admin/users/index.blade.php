@@ -1,8 +1,8 @@
 @extends('layout.app')
 
 @section('content')
-<div class="container py-4">
-    <h2 class="fw-bold mb-4 text-center" style="font-family: sans-serif;">👤 Manage Users</h2>
+<div class="container-fluid py-4">
+    <h2 class="fw-bold mb-5 text-center" style="font-family: sans-serif;">👤 Manage Users</h2>
 
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
@@ -50,6 +50,9 @@
             @endforeach
         </tbody>
     </table>
+        <div class="col-sm-6 d-flex py-4 justify-content-end">
+        {{ $users->links('pagination::bootstrap-5') }}
+        </div>
 </div>
 @endsection
 
@@ -76,12 +79,12 @@
     background-color: #000;
     color: white;
     font-weight: 600;
-    font-size:20px ;
+    font-size:26px ;
     text-transform: uppercase;
   }
   
   .table td {
-    font-size: 18px;
+    font-size: 20px;
     vertical-align: middle;
   }
   
@@ -99,6 +102,85 @@
   .table td a.btn-warning:hover{
     background-color: orange;
    }
+    /* Target the pagination links container for styling */
+  .col-sm-6.justify-content-end nav {
+      /* Optional: Ensure the pagination navigation element respects the flexbox container */
+      margin: 0;
+      padding: 0;
+  }
+
+  /* Base Pagination Container Styling (ul element) */
+  .col-sm-6.justify-content-end .pagination {
+      display: flex;
+      gap: 0.5rem;
+      margin-left: 20px;
+  }
+
+  .col-sm-6.justify-content-end .pagination .page-item {
+      list-style: none;
+  }
+
+  /* Pagination Link Base Style (a or span element) */
+  .col-sm-6.justify-content-end .pagination .page-link {
+      color: #000;
+      background-color: #fff;
+      border: 2px solid #000;
+      padding: 0.75rem 1.25rem;
+      font-weight: 400; 
+      text-decoration: none;
+      transition: all 0.3s ease;
+      border-radius: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 1.35rem;
+      line-height: 1; /* Essential for vertical alignment */
+  }
+
+  /* Hover State */
+  .col-sm-6.justify-content-end .pagination .page-link:hover {
+      color: #fff;
+      background-color: #000;
+      border-color: #000;
+      transform: none; /* No vertical movement on hover */
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Active State */
+  .col-sm-6.justify-content-end .pagination .page-item.active .page-link {
+      color: #fff;
+      background-color: #000;
+      border-color: #000;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Disabled State */
+  .col-sm-6.justify-content-end .pagination .page-item.disabled .page-link {
+      color: #999;
+      background-color: #f5f5f5;
+      border-color: #ddd;
+      cursor: not-allowed;
+      opacity: 0.8;
+  }
+
+  .col-sm-6.justify-content-end .pagination .page-item.disabled .page-link:hover {
+      transform: none;
+      box-shadow: none;
+      background-color: #f5f5f5;
+      color: #999;
+  }
+
+  /* Focus State */
+  .col-sm-6.justify-content-end .pagination .page-link:focus {
+      outline: 2px solid #000;
+      outline-offset: 2px;
+      box-shadow: none;
+  }
+
+  /* IMPORTANT: Hide the result count that Laravel generates inside the pagination block */
+  .col-sm-6.justify-content-end nav > div:first-child p.text-sm {
+      display: none !important;
+  }
 
 
 </style> 

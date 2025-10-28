@@ -15,6 +15,7 @@ class OrderController extends Controller
 
         // Simple safe pagination without invalid relation
         $orders = Order::latest()->paginate(12);
+
         return view('admin.orders.index', compact('orders'));
     }
 
@@ -22,6 +23,7 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->update(['status' => $status]);
+
         return redirect()->route('admin.orders.index')->with('success', "Order #{$id} marked as {$status}!");
     }
 

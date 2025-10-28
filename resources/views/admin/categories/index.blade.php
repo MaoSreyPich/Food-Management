@@ -1,8 +1,8 @@
 @extends('layout.app')
 
 @section('content')
-<div class="container py-4">
-  <div class="d-flex justify-content-between align-items-center mb-4">
+<div class="container-fluid py-4">
+  <div class="d-flex justify-content-between align-items-center mb-5">
     <h3 class="fw-bold" style="font-family: sans-serif;">📂 Categories</h3>
     <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">+ Add Category</button>
   </div>
@@ -170,12 +170,12 @@ document.addEventListener('DOMContentLoaded', function () {
     background-color: #000;
     color: white;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 25px;
     text-transform: uppercase;
   }
 
   .table td {
-    font-size: 18px;
+    font-size: 20px;
     vertical-align: middle;
   }
 
