@@ -39,39 +39,32 @@ class UserController extends Controller
     }
 
    public function checkLogin(Request $request)
-{
-    $credentials = $request->validate([
-        'email' => 'required|email',
-        'password' => 'required'
-    ]);
+    {
+        $credentials = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
 
-    // ✅ Attempt login
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        $user = Auth::user();
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            $user = Auth::user();
 
-        // 🛑 Blocked user check
-        if (isset($user->status) && $user->status === 'blocked') {
-            Auth::logout();
-            return back()->withErrors([
-                'email' => 'Your account has been blocked by the admin.'
-            ])->withInput();
-        }
+            // Blocked user
+            if (isset($user->status) && $user->status === 'blocked') {
+                Auth::logout();
+                return back()->withErrors(['email' => 'Your account has been blocked by the admin.'])->withInput();
+            }
 
-        // ✅ Redirect based on role
-        if (isset($user->role) && (int)$user->role === 1) {
-            // Admin user
-            return redirect()->route('admin.dashboard')
-                             ->with('success', 'Welcome back, Admin!');
-        } else {
-            // Normal customer user — redirect to homepage URL
+            // Accept numeric 1 or string 'admin' (case-insensitive)
+            $role = (string) ($user->role ?? '');
+            if ($role === '1' || strtolower($role) === 'admin') {
+                return redirect()->route('admin.dashboard')->with('success', 'Welcome back, Admin!');
+            }
+
+            // Default customer redirect (use '/' or named route)
             return redirect('/')->with('success', 'Login successful!');
         }
-    }
 
-    // ❌ Failed authentication
-    return back()->withErrors([
-        'email' => 'Invalid credentials. Please check your email or password.'
-    ])->withInput();
-}
+        return back()->withErrors(['email' => 'Invalid credentials. Please check your email or password.'])->withInput();
+    }
 }

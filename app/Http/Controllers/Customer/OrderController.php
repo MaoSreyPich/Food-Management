@@ -14,20 +14,17 @@ class OrderController extends Controller
     public function index(Request $request)
     {
         // ✅ Use safe optional() helper to avoid errors if user not logged in
-        $email = optional(auth()->user())->email ?? session('customer_email');
+        $email = session('customer_email') ?? optional(auth()->user())->email;
 
         if (!$email) {
-            return redirect()
-                ->route('customer.menu.index')
+            return redirect()->route('customer.menu.index')
                 ->with('error', 'Please log in or place an order first.');
         }
 
-        // ✅ Fetch orders belonging to this customer email
         $orders = Order::where('customer_email', $email)
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // ✅ Make sure this view exists: resources/views/customer/orders.blade.php
         return view('customer.orders', compact('orders'));
-    }
+        }
 }
