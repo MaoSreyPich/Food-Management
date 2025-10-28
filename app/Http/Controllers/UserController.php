@@ -64,9 +64,8 @@ class UserController extends Controller
             return redirect()->route('admin.dashboard')
                              ->with('success', 'Welcome back, Admin!');
         } else {
-            // Normal customer user
-            return redirect()->route('customer.dashboard')
-                             ->with('success', 'Welcome back!');
+            // Normal customer user — redirect to homepage URL
+            return redirect('/')->with('success', 'Login successful!');
         }
     }
 
